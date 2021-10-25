@@ -1,0 +1,28 @@
+[obd.obd] ======================= python-OBD (v0.7.1) =======================
+[obd.obd] Using scan_serial to select port
+Traceback (most recent call last):
+  File "./start_trip_capture.py", line 3, in <module>
+    a = trip_capture()
+  File "/home/pi/obd_data_module/utils/trip_capture.py", line 26, in __init__
+    self.obd = myOBD()
+  File "/home/pi/obd_data_module/utils/obd_utils.py", line 6, in __init__
+    self._connect_obd()
+  File "/home/pi/obd_data_module/utils/obd_utils.py", line 11, in _connect_obd
+    self.connection = obd.OBD()
+  File "/home/pi/.local/lib/python3.7/site-packages/obd/obd.py", line 64, in __init__
+    check_voltage, start_low_power)  # initialize by connecting and loading sensors
+  File "/home/pi/.local/lib/python3.7/site-packages/obd/obd.py", line 76, in __connect
+    port_names = scan_serial()
+  File "/home/pi/.local/lib/python3.7/site-packages/obd/utils.py", line 189, in scan_serial
+    if try_port(port):
+  File "/home/pi/.local/lib/python3.7/site-packages/obd/utils.py", line 161, in try_port
+    raise e
+  File "/home/pi/.local/lib/python3.7/site-packages/obd/utils.py", line 153, in try_port
+    s = serial.Serial(portStr)
+  File "/home/pi/.local/lib/python3.7/site-packages/serial/serialutil.py", line 244, in __init__
+    self.open()
+  File "/home/pi/.local/lib/python3.7/site-packages/serial/serialposix.py", line 336, in open
+    self._update_dtr_state()
+  File "/home/pi/.local/lib/python3.7/site-packages/serial/serialposix.py", line 713, in _update_dtr_state
+    fcntl.ioctl(self.fd, TIOCMBIS, TIOCM_DTR_str)
+BrokenPipeError: [Errno 32] Broken pipe

@@ -1,0 +1,8 @@
+numpy
+pandas
+boto3
+botocore
+obd
+smbus2
+mpu9250_jmdev
+pynmea2
