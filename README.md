@@ -4,7 +4,7 @@ Code to Run on CarMiners
 ## Pre-requisites:
 1. Python :
 
-* Download python latest version
+* Download python latest version from:
 ```
 visit https://www.python.org/downloads/
 ```
@@ -20,7 +20,7 @@ python3 --verion
 ```
 2. pip
 
-* For checking pip version on syatem
+* For checking pip version on syatem:
 ```
 pip --verion
 ```
@@ -30,6 +30,7 @@ pip --verion
 
 ```
 git clone https://github.com/AashayBhupendraDoshi/motoDB_hardware.git
+
 cd motoDB_hardware/
 ```
 
@@ -65,7 +66,7 @@ bash boot_script.sh
 
 ## Logs:
 
-* You can see logs on the following:
+* You can see logs in the following file:
 ```
 test_output.txt
 ```
