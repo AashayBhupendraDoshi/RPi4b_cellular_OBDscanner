@@ -2,31 +2,25 @@
 Code to Run on CarMiners
 
 ## Pre-requisites:
-1. Python :
+1. Python3 :
 
-* Download python latest version from:
+* Download python latest version:
 ```
-visit https://www.python.org/downloads/
+https://www.python.org/downloads/
 ```
-* For installation steps please refer:
+* For installation steps refer:
 ```
 https://realpython.com/installing-python/
 ```
 
-* Check installation is done on local with checking node and npm versions.
+* Check installation is done on local with checking python3 version
 
 ```
-python3 --verion
-```
-2. pip
-
-* For checking pip version on syatem:
-```
-pip --verion
+python3 --version
 ```
 ## Installation:
 
-* Clone the project on your local:
+* Clone the project repo:
 
 ```
 git clone https://github.com/AashayBhupendraDoshi/motoDB_hardware.git
@@ -46,7 +40,7 @@ git status
 git pull origin main
 ```
 
-* For installing all packages in `reqirement.txt` file run following command in your project directory:
+* For installing all packages in `reqirement.txt` file, run following command in your project directory:
 
 ```
 pip install -r requirements.txt
