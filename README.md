@@ -6,7 +6,7 @@ Code to Run on CarMiners
 
 * Download python latest version:
 ```
-https://www.python.org/downloads/
+[Download Python3](https://www.python.org/downloads/)
 ```
 * For installation steps refer:
 ```
@@ -26,18 +26,6 @@ python3 --version
 git clone https://github.com/AashayBhupendraDoshi/motoDB_hardware.git
 
 cd motoDB_hardware/
-```
-
-* By default you will be on main branch.
-
-* To check on which branch you are:
-```
-git status
-```
-
-* To pull latest changes on main branch:
-```
-git pull origin main
 ```
 
 * For installing all packages in `reqirement.txt` file, run following command in your project directory:
