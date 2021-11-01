@@ -5,9 +5,9 @@ Code to Run on CarMiners
 1. Python3 :
 
 * Download python latest version:
-```
-[Download Python3](https://www.python.org/downloads/)
-```
+
+    [Download Python3](https://www.python.org/downloads/)
+
 * For installation steps refer:
 ```
 https://realpython.com/installing-python/
