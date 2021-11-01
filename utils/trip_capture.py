@@ -4,6 +4,8 @@ from utils.general_utils import *
 from utils.obd_utils import myOBD
 from utils.mpu_utils import mpu
 #from utils.gps_utils import AT_GPS
+import logging
+logging.basicConfig(level=logging.INFO)
 
 # Since Inboard Computer is powered by the car-charger
 # It will start whenever the car is turned on and will shutdown
@@ -18,17 +20,23 @@ from utils.mpu_utils import mpu
 class trip_capture():
     def __init__(self, capture_frequency=1):
         # Capture Frequency is the number of points per seconds
+        logging.info("Capturing frequency is the number of points per seconds")
         # does the user want
         # Process and clear cache
+        logging.info("Processing and clearing cache")
         self.cache_addr = "./cache/"
         #process_cache()
         # Init OBD
+        logging.info("OBD initializes")
         self.obd = myOBD()
         # Init mpu
+        logging.info("mpu initializes")
         self.mpu = mpu()
         self.mpu_metadata = self.mpu.get_reading_metadata()
         # Init GPS
+        logging.info("GPS initializes")
         self.gps = AT_GPS()
+        logging.info("metadata initializes")
         self.gps_metadata = self.gps.metadata
         self.sleep_time = 1/capture_frequency
         self._system_check()
@@ -39,7 +47,7 @@ class trip_capture():
         # These include DTC's during the start of the trip
         # These cannot  be done in the end since we do not know
         # when the trip will end
-
+        logging.info("System checks starts")
         #system_data = {}
         system_data = self.obd._get_system_info()
         if system_data['ELM_VERSION'] is not None:
@@ -62,6 +70,7 @@ class trip_capture():
     def _moniter_trip(self):
 	# Every data-point is saved as a dictionary in a pickle file
 	# which is named in a serial order
+    logging.info("Naming every data-point saved as a dictionary in pickle file in a serial order")
         counter = 0
         while(True):
             buff_point = self.obd._get_current_data()
@@ -72,6 +81,7 @@ class trip_capture():
             #    buff_point[self.mpu_metadata[i]] = buff_mpu[i]
             buff_gps = self.gps._get_gps_nmea()
             buff_point['gps'] = buff_gps
+            logging.info("Serializing a python object")
             with open( self.cache_addr + str(counter) + '.pkl', 'wb' ) as f:
                 pickle.dump(buff_point, f, protocol=pickle.HIGHEST_PROTOCOL)
 

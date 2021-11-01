@@ -1,8 +1,11 @@
 import obd
+import logging
+logging.basicConfig(level=logging.INFO)
 obd.logger.setLevel(obd.logging.DEBUG)
 
 class myOBD():
     def __init__(self):
+
         self._connect_obd()
         self._init_pids()
         
@@ -16,9 +19,12 @@ class myOBD():
         #
         #
 	    # Set Mode 0 PIDs
+        logging.info("Initializing mode 0 PIDs)
 	    # These are vehicle status PIDs such elm version
 	    # Fuel_Status, Freeze_DTC, etc which should be
 	    # checked at the start of the trip
+        logging.info("Initialize Pids")
+        logging.info("Checking vehicle status at the start of the trip")
         self.mode0 = {}
         self.mode0['ELM_VERSION'] = obd.commands.ELM_VERSION
         self.mode0['ELM_VOLTAGE'] = obd.commands.ELM_VOLTAGE
@@ -27,6 +33,7 @@ class myOBD():
         self.mode0['FUEL_STATUS'] = obd.commands.FUEL_STATUS
 
         # Initialize Mode 1 PIDs
+        logging.info("Initializing mode 1 PIDs")
 	    # These are parameters to be actively monitered
         self.mode1 = {}
         self.mode1['ENGINE_LOAD'] = obd.commands.ENGINE_LOAD
@@ -49,6 +56,7 @@ class myOBD():
         self.mode1['FUEL_RATE'] = obd.commands.FUEL_RATE
         
         # Initialize Mode 2 PIDs (Freeze Frame Data)
+        logging.info("Initializing mode 2 PIDs i.e. Freeze Frame Data")
 	# Only if a DTC has been detected, i.e., FREEZE_DTC is not None
         self.mode2 = {}
         self.mode2['DTC_ENGINE_LOAD'] = obd.commands.DTC_ENGINE_LOAD
@@ -71,12 +79,14 @@ class myOBD():
         self.mode2['DTC_FUEL_RATE'] = obd.commands.DTC_FUEL_RATE
 
 	# Initialize Model 3 PIDs (Diagnostic Trouble Codes)
+        logging.info("Initializing mode 2 PIDs i.e. Diagnostic Trouble Codes")
         self.GET_DTC = obd.commands.GET_DTC
 
         pass
     
 
     def _get_current_data(self):
+        logging.info("Getting current data")
         current_screen = {}
         for keys in self.mode1.keys():
             r = self.connection.query(self.mode1[keys])
@@ -85,6 +95,7 @@ class myOBD():
         return current_screen
 
     def _get_freeze_frame(self):
+        logging.info("Getting values of freeze frame")
         freeze_screen = {}
         for keys in self.mode2.keys():
             r = self.connection.query(self.mode2[keys])
@@ -93,12 +104,13 @@ class myOBD():
         return freeze_screen
 
     def _get_dtc(self):
-        
+        logging.info("Getting values for diagnostic trouble codes")
         r = self.connection.query(self.GET_DTC)
         return r.value
         
 
     def _get_system_info(self):
+        logging.info("Getting system informaton")
         info = {}
         for keys in  self.mode0.keys():
             if keys in ["ELM_VERSION", "ELM_VOLTAGE"]:

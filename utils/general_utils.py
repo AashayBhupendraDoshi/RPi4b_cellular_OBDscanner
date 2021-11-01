@@ -13,25 +13,31 @@ trip_data_addr = "./trip_data/"
 metadata_file = 'system_check.pkl'
 uploaded_trips_file = 'uploaded_trips.pkl'
 
+logging.basicConfig(level=logging.INFO)
+
 def check_cache():
     # Return 1 if cache files exist
     # Else return 0
     file_names = os.listdir(cache_addr)
     if len(file_names)>0:
+        logging.info("Cache files found")
         return 1
     else:
+        logging.info("No catch file exists")
         return 0
 
 def process_cache():
     
     trip = {}
     # Check Cache Folder fro files
+    logging.info("Checking cache folder for files")
     file_list = os.listdir(cache_addr)
     
     
     # If no files are present, return 0
     if file_list == []:
     #if not file_list:
+        logging.info("No catch files are present")
         return 0
     
 
@@ -39,6 +45,7 @@ def process_cache():
     # If yes process it
     metadata = None
     if metadata_file in file_list:
+        logging.info("Processing starts")
         with open(cache_addr +  metadata_file, 'rb') as handle:
             metadata = pickle.load(handle)
 
@@ -48,12 +55,16 @@ def process_cache():
     # Delete system_check file from list as it has been
     # processed
     file_list.remove(metadata_file)
+    logging.info("catch files removed")
+    logging.info("Processing ends")
+
 
 
     # Create new list containing only non_blank files
     new_list = []
     for names in file_list:
         # Check if file os not empty to prevent EOF error
+        logging.info("Checking os file as non empty to prevent EOF error")
         if os.path.getsize(cache_addr + names) > 0: 
             buff = int(names.split('.')[0])
             new_list+=[buff]
@@ -61,13 +72,16 @@ def process_cache():
     # If no file present has size greate than 0
     # ,i.e., is not null, then return 0
     if new_list == []:
+        logging.info("No files are found")
         return 0
 
     # Arrange non-blank files to read them chronologically
     new_list.sort()
+    logging.info("Arranging non-empty files to reading them chronologically")
     main_list = []
     # Process All Non-Empty files Chronologically
     # and store to a numpy array
+    logging.info("Processing all non-empty files chronologically and storing to a numpy array")
     for vals in new_list:
 
         #f = open(cache_addr + str(vals) + '.pkl', 'rb')
@@ -89,6 +103,7 @@ def process_cache():
                 else:
 
                     buff_list += [a[keys].to_tuple()[0]]
+                    logging.info("Files stored successfully \n",buff_list)
             
             if len(buff_list)==0:
                 # In case car in on, but engine is not started
@@ -96,6 +111,7 @@ def process_cache():
                 # and not turn-on ignition, all readings will be none
                 # since sensors are not powered untill ignition is on
                 new_list.remove(vals)
+                logging.warning("Ignition not turned on. all file reading set to none!")
                 #continue
             else:
                 main_list += [np.array(buff_list)]
@@ -120,6 +136,7 @@ def process_cache():
     
     
     # Convert Numpy array to pandas dataframe
+    logging.info("Converting Numpy array to pandas dataframe")
     buff_df = pd.DataFrame(main_list, columns = IMU_Headers + GPS_Headers + available_keys)
 
     trip['trip_data'] = buff_df
@@ -131,6 +148,7 @@ def process_cache():
         with open( trip_data_addr + '1.pkl', 'wb' ) as f:
             #pickle.dump(buff_point, f, protocol=pickle.HIGHEST_PROTOCOL)
             pickle.dump(trip, f)
+        logging.info("Trip file saved in trip_data directory.")
     else:
         new_list = []
         for names in file_names:
@@ -153,6 +171,7 @@ def process_cache():
     file_names = os.listdir(cache_addr)
     for vals in file_names:
         os.remove(cache_addr + vals)
+        logging.info("Cache cleared")
 
     return 0
 
@@ -176,7 +195,9 @@ def upload_file_s3(file_name,object_name):
                             region_name=REGION_NAME
                 )
     try:
+        logging.info("File uploading starts")
         response = s3_client.upload_file(file_name, bucket, bucket_address + object_name)
+        logging.info("File uploaded successfully")
     except ClientError as e:
         logging.error(e)
         return False
@@ -184,6 +205,7 @@ def upload_file_s3(file_name,object_name):
 
 
 def upload_trip_data():
+    logging.info("Trip data uploading starts")
     #uploaded_files = pickle.load(open(trip_data_addr + 'uploaded_trips.pkl'),encoding="utf-8")
     with open(trip_data_addr + uploaded_trips_file, 'rb') as f:
         uploaded_files = pickle.load(f)
@@ -198,9 +220,11 @@ def upload_trip_data():
             # Update uploaded files list only if file is uploaded
             # successfully
                 uploaded_files += [vals]
+                logging.info("Uploaded file updated successfully!")
                 
     # Store updated uploaded_trips file
     with open(trip_data_addr + 'uploaded_trips.pkl', 'wb') as f:
         pickle.dump(uploaded_files,f)
+        logging.info("Trip data stored on file!")
     
     return 0            
