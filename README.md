@@ -26,7 +26,7 @@ Code to Run on CarMiners
 * For installing all packages in `requirements.txt` file, run following command in your project directory:
 
     ```
-    pip install -r requirements.txt
+    pip3 install -r requirements.txt
     ```
 
 ## Configuration:
