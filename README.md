@@ -1,38 +1,33 @@
-# motoDB_hardware
+# MotoDB Hardware
 Code to Run on CarMiners
 
 ## Pre-requisites:
 1. Python3 :
 
-* Download python latest version:
+* [Download Python3](https://www.python.org/downloads/)
 
-    [Download Python3](https://www.python.org/downloads/)
-
-* For installation steps refer:
-```
-https://realpython.com/installing-python/
-```
+* [Installation Steps](https://realpython.com/installing-python/)
 
 * Check installation is done on local with checking python3 version
 
-```
-python3 --version
-```
+    ```
+    python3 --version
+    ```
 ## Installation:
 
-* Clone the project repo:
+* Clone the project:
 
-```
-git clone https://github.com/AashayBhupendraDoshi/motoDB_hardware.git
+    ```
+    git clone https://github.com/AashayBhupendraDoshi/motoDB_hardware.git
 
-cd motoDB_hardware/
-```
+    cd motoDB_hardware/
+    ```
 
-* For installing all packages in `reqirement.txt` file, run following command in your project directory:
+* For installing all packages in `requirements.txt` file, run following command in your project directory:
 
-```
-pip install -r requirements.txt
-```
+    ```
+    pip install -r requirements.txt
+    ```
 
 ## Configuration:
 
@@ -42,13 +37,13 @@ pip install -r requirements.txt
 
 * To run the bash script:
 
-```
-bash boot_script.sh
-```
+    ```
+    bash boot_script.sh
+    ```
 
 ## Logs:
 
 * You can see logs in the following file:
-```
-test_output.txt
-```
+    ```
+    test_output.txt
+    ```
