@@ -1,6 +1,5 @@
 import obd
 import logging
-logging.basicConfig(level=logging.INFO)
 obd.logger.setLevel(obd.logging.DEBUG)
 
 class myOBD():

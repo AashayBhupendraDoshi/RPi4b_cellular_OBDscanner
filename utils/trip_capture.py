@@ -1,5 +1,5 @@
 import logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 import os, sys, time, datetime
 import pickle
 from utils.general_utils import *
@@ -64,7 +64,7 @@ class trip_capture():
 
         with open( self.cache_addr + 'system_check.pkl', 'wb' ) as f:
             pickle.dump(system_data, f, protocol=pickle.HIGHEST_PROTOCOL)
-        logging.info("System data = %s",system_data)
+        logging.info(f"System data is {system_data}")
         logging.info("System checks ends")
         return 0
 

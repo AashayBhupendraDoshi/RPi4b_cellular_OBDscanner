@@ -1,11 +1,11 @@
 import serial
 import os, time
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import pynmea2
 import logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
-# GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BOARD)
 
 class AT_GPS():
 
@@ -32,7 +32,7 @@ class AT_GPS():
         # Decode binary RX to ascii
         logging.info("Decode binary RX to ascii")
         rcv = rcv.decode('utf-8')
-        logging.info("Decoded rcv = %s", rcv)
+        logging.info(f"Decoded rcv is {rcv}")
         #print(rcv)
         time.sleep(1)
         #rcv = self.port.read(64)
@@ -42,12 +42,12 @@ class AT_GPS():
     def _gps_cold_start(self):
         logging.info("Getting gps cold start")
         rx = self.serial_txrx('AT+QGPSDEL=0')
-        logging.info("Gps cold start = %s", rx)
+        logging.info(f"Gps cold start is {rx}")
 
     def _get_firmware_info(self):
         logging.info("Getting firmware information")
         rx = self.serial_txrx('ATI')
-        logging.info("Firmware info = %s", rx)
+        logging.info(f"Firmware info : {rx}")
         return rx.splitlines()
 
     def _check_loc(self):
@@ -63,7 +63,7 @@ class AT_GPS():
         # Set <nmeasrc> to 1 to enable acquisition of NMEA sentances via AT+QGPSGNMEA.
         logging.info("Seting <nmeasrc> to 1 to enable acquisition of NMEA sentances via AT+QGPSGNMEA.")
         rx = self.serial_txrx('AT+QGPSCFG="nmeasrc",1')
-        logging.info("In _init_gps : %s",rx)
+        logging.info(f"In _init_gps : {rx}")
 
     def _get_gps_nmea(self):
         rx_default = "$GPGGA,,,,,,0,,,,,,,,*66"
