@@ -19,12 +19,12 @@ class myOBD():
         #
         #
 	    # Set Mode 0 PIDs
-        logging.info("Initializing mode 0 PIDs)
 	    # These are vehicle status PIDs such elm version
 	    # Fuel_Status, Freeze_DTC, etc which should be
 	    # checked at the start of the trip
         logging.info("Initialize Pids")
         logging.info("Checking vehicle status at the start of the trip")
+        logging.info("Initializing mode 0 PIDs")
         self.mode0 = {}
         self.mode0['ELM_VERSION'] = obd.commands.ELM_VERSION
         self.mode0['ELM_VOLTAGE'] = obd.commands.ELM_VOLTAGE
@@ -57,7 +57,7 @@ class myOBD():
         
         # Initialize Mode 2 PIDs (Freeze Frame Data)
         logging.info("Initializing mode 2 PIDs i.e. Freeze Frame Data")
-	# Only if a DTC has been detected, i.e., FREEZE_DTC is not None
+	    # Only if a DTC has been detected, i.e., FREEZE_DTC is not None
         self.mode2 = {}
         self.mode2['DTC_ENGINE_LOAD'] = obd.commands.DTC_ENGINE_LOAD
         self.mode2['DTC_COOLANT_TEMP'] = obd.commands.DTC_COOLANT_TEMP
@@ -78,7 +78,7 @@ class myOBD():
         self.mode2['DTC_OIL_TEMP'] = obd.commands.DTC_OIL_TEMP
         self.mode2['DTC_FUEL_RATE'] = obd.commands.DTC_FUEL_RATE
 
-	# Initialize Model 3 PIDs (Diagnostic Trouble Codes)
+        # Initialize Model 3 PIDs (Diagnostic Trouble Codes)
         logging.info("Initializing mode 2 PIDs i.e. Diagnostic Trouble Codes")
         self.GET_DTC = obd.commands.GET_DTC
 

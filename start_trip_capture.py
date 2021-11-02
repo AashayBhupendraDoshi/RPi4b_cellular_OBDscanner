@@ -1,8 +1,8 @@
-from utils.trip_capture import trip_capture
 import logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(filename="./output.txt", level=logging.INFO)
+from utils.trip_capture import trip_capture
 
 logging.info("Capturing Trips")
 a = trip_capture()
-logging.info("Monitering Trips")
+logging.info("Monitoring Trips")
 a._moniter_trip()

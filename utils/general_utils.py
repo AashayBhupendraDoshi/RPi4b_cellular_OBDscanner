@@ -8,8 +8,8 @@ import boto3
 from botocore.exceptions import ClientError
 
 unique_key = '000000000002'
-cache_addr = "./cache/"
-trip_data_addr = "./trip_data/"
+cache_addr = "../cache/"
+trip_data_addr = "../trip_data/"
 metadata_file = 'system_check.pkl'
 uploaded_trips_file = 'uploaded_trips.pkl'
 
@@ -23,7 +23,7 @@ def check_cache():
         logging.info("Cache files found")
         return 1
     else:
-        logging.info("No catch file exists")
+        logging.info("No cache files found")
         return 0
 
 def process_cache():
@@ -37,25 +37,26 @@ def process_cache():
     # If no files are present, return 0
     if file_list == []:
     #if not file_list:
-        logging.info("No catch files are present")
+        logging.info("No cache files are present")
         return 0
     
 
     # Check if metadata file is present
     # If yes process it
+    logging.info("Processing starts")
     metadata = None
     if metadata_file in file_list:
-        logging.info("Processing starts")
         with open(cache_addr +  metadata_file, 'rb') as handle:
             metadata = pickle.load(handle)
-
+    else:
+        logging.warning("metadata is %s",metadata)
     trip['system_data'] = metadata
     IMU_Headers = metadata['IMU_Headers']
     GPS_Headers = metadata['GPS_Headers']
     # Delete system_check file from list as it has been
     # processed
     file_list.remove(metadata_file)
-    logging.info("catch files removed")
+    logging.info("Cache files removed")
     logging.info("Processing ends")
 
 
@@ -64,11 +65,13 @@ def process_cache():
     new_list = []
     for names in file_list:
         # Check if file os not empty to prevent EOF error
-        logging.info("Checking os file as non empty to prevent EOF error")
+        logging.info("Checking for non empty os file to prevent EOF error")
         if os.path.getsize(cache_addr + names) > 0: 
             buff = int(names.split('.')[0])
             new_list+=[buff]
-
+        else:
+            logging.warning("Os file is empty")
+            logging.info("New list = %s",new_list)
     # If no file present has size greate than 0
     # ,i.e., is not null, then return 0
     if new_list == []:
@@ -76,8 +79,8 @@ def process_cache():
         return 0
 
     # Arrange non-blank files to read them chronologically
-    new_list.sort()
-    logging.info("Arranging non-empty files to reading them chronologically")
+    sorted_list = new_list.sort()
+    logging.info("Arranging non-empty files to reading them chronologically: %s",sorted_list)
     main_list = []
     # Process All Non-Empty files Chronologically
     # and store to a numpy array
@@ -95,7 +98,7 @@ def process_cache():
                 if keys == 'imu':
                     buff_list += a[keys]
                 
-                if keys = 'gps'
+                elif keys == 'gps':
                     buff_list += a[keys]
                 
                 elif a[keys] is None:
@@ -111,17 +114,19 @@ def process_cache():
                 # and not turn-on ignition, all readings will be none
                 # since sensors are not powered untill ignition is on
                 new_list.remove(vals)
-                logging.warning("Ignition not turned on. all file reading set to none!")
+                logging.warning("Ignition not turned on. all file readings set to none!")
                 #continue
             else:
                 main_list += [np.array(buff_list)]
-        
+                logging.info("Processed main list: %s",main_list)
         except:
+            logging.exception("Unable to process files and stores into a numpy array")
             continue
 
     
     #print(np.stack(main_list).shape)
     main_list = np.array(main_list)
+    logging.info("Processed main list = %s",main_list)
 
     # Find names of all available data entries
     f = open(cache_addr + str(new_list[0]) + '.pkl', 'rb')
@@ -131,20 +136,22 @@ def process_cache():
         try:
             buff = a[key].to_tuple()
             available_keys += [key]
-        except:
+        except :
+            logging.exception(available_keys) 
             continue
     
     
     # Convert Numpy array to pandas dataframe
     logging.info("Converting Numpy array to pandas dataframe")
     buff_df = pd.DataFrame(main_list, columns = IMU_Headers + GPS_Headers + available_keys)
-
+    logging.info("Converted data frame: %s",buff_df)
     trip['trip_data'] = buff_df
     
     # Save trip-file in trip_data directory
     file_names = os.listdir(trip_data_addr)
     file_names.remove(uploaded_trips_file)
     if file_names == []:
+        logging.info("file_names array is empty : %s", file_names)
         with open( trip_data_addr + '1.pkl', 'wb' ) as f:
             #pickle.dump(buff_point, f, protocol=pickle.HIGHEST_PROTOCOL)
             pickle.dump(trip, f)

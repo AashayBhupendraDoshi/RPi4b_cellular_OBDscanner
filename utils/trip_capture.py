@@ -1,11 +1,11 @@
+import logging
+logging.basicConfig(level=logging.INFO)
 import os, sys, time, datetime
 import pickle
 from utils.general_utils import *
 from utils.obd_utils import myOBD
 from utils.mpu_utils import mpu
 #from utils.gps_utils import AT_GPS
-import logging
-logging.basicConfig(level=logging.INFO)
 
 # Since Inboard Computer is powered by the car-charger
 # It will start whenever the car is turned on and will shutdown
@@ -64,13 +64,14 @@ class trip_capture():
 
         with open( self.cache_addr + 'system_check.pkl', 'wb' ) as f:
             pickle.dump(system_data, f, protocol=pickle.HIGHEST_PROTOCOL)
-
+        logging.info("System data = %s",system_data)
+        logging.info("System checks ends")
         return 0
 
     def _moniter_trip(self):
 	# Every data-point is saved as a dictionary in a pickle file
 	# which is named in a serial order
-    logging.info("Naming every data-point saved as a dictionary in pickle file in a serial order")
+        logging.info("Naming every data-point saved as a dictionary in pickle file in a serial order")
         counter = 0
         while(True):
             buff_point = self.obd._get_current_data()

@@ -12,7 +12,6 @@ class mpu():
     def _init_mpu(self, calibrate=0):
         self.mpu = MPU9250(
             address_ak=AK8963_ADDRESS, 
-            logging.info("In 0x68 Address")
             address_mpu_master=MPU9050_ADDRESS_68, # In 0x68 Address
             address_mpu_slave=None, 
             bus=1,
@@ -24,9 +23,9 @@ class mpu():
         if calibrate==1:
         # Calibrate sensors
         # The calibration function resets the sensors, so you need to reconfigure them
-            logging.info("calibrating sensors")
+            logging.info("Calibrating sensors")
             logging.info("The calibration function resets the sensors")
-            logging.info("Reconfiguring the sensors")
+            logging.info("Sensors getting reconfigured")
             self.mpu.calibrate() 
         
         # Apply the settings to the registers.
@@ -38,7 +37,7 @@ class mpu():
 
     def get_reading_metadata(self):
     # return labels with data description for each array position
-        logging.info("Getting values for metadata and returning data derscription for each array position")
+        logging.info("Getting values for metadata and returning data description for each array position")
         return self.mpu.getAllDataLabels()
 
     def get_reading(self):
