@@ -81,7 +81,7 @@ def process_cache():
                 if keys == 'imu':
                     buff_list += a[keys]
                 
-                if keys = 'gps'
+                elif keys == 'gps':
                     buff_list += a[keys]
                 
                 elif a[keys] is None:
