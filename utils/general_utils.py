@@ -237,3 +237,4 @@ def upload_trip_data():
            
 # process_cache()
 check_cache()
+upload_trip_data()
