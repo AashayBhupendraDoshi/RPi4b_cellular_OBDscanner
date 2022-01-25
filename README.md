@@ -13,6 +13,15 @@ Code to Run on CarMiners
     ```
     python3 --version
     ```
+
+* You will also need to install libqmi-utils and udhcpc packages on the system
+
+    ```
+    sudo apt-get update
+    sudo apt-get install libqmi-utils udhcpc
+    ```
+
+
 ## Installation:
 
 * Clone the project:
