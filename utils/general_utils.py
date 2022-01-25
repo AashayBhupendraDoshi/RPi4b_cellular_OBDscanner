@@ -171,8 +171,10 @@ def upload_file_s3(file_name,object_name):
     bucket_address = '/temp/'
     # Upload the file
     s3_client = boto3.client('s3',
-                            aws_access_key_id='AKIAYUK4V2N3EH6VHTSW', 
-                            aws_secret_access_key='Vwlv3G0geLgr5v/dG8j8H51qlTV4B1Y9tPa1RpdM', 
+                            # ENTER YOUR AWS ACCESS KEY HERE
+                            aws_access_key_id='',
+                            # ENTER YOUR AWS SECRET KEY HERE
+                            aws_secret_access_key='', 
                             region_name=REGION_NAME
                 )
     try:
