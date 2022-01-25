@@ -49,7 +49,9 @@ Note:
     ```
 
 ## Configuration:
-
+Befire starting there are a few steps you will have to follow:
+- Add your AWS public and secret kes in the /utils/general_utils.py file
+- Setup the tty consoles (in utils/obd_utils.py and in utils/gps_utils.py) according to your setup. In the current setup the OBD is connected to the bottom left USB port and 4G module to the top left port of the Rpi4B
 ```
 ```
 ## Run:
