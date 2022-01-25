@@ -7,6 +7,10 @@ it to the AWS cloud. The components used wre:
 - Quectel EC25 CAT4 LTE HAT
 - Any USB based ELM327 OBD scanner
 
+Note:
+- Though this system was build on top of raspberry pi, it shoudl run on any linux based system, only the specific console terminals (used for OBD and GPS) and IMU support will need to be addressed.
+- The specific Quectel will be based on the region you are in (EC25-E since the device was developed in India). Please refer [this](https://www.quectel.com/wp-content/uploads/pdfupload/Quectel_EC25_Series_LTE_Standard_Specification_V2.1.pdf) document while selecting your module. 
+
 ## Pre-requisites:
 1. Python3 :
 
