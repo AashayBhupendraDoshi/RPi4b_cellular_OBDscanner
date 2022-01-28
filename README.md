@@ -1,4 +1,4 @@
-# Introduction
+## Introduction
 A Rpi based system to collect data from the OBDii port of a car and transmit it to AWS S3 bucket
 Collects OBDii data from the car, motion sensor from onboard motion-sensors, GPS data and transmits
 it to the AWS cloud. The components used wre:
